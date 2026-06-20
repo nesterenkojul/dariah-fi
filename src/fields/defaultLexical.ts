@@ -3,6 +3,7 @@ import {
   BoldFeature,
   ItalicFeature,
   LinkFeature,
+  UploadFeature,
   ParagraphFeature,
   lexicalEditor,
   UnderlineFeature,
@@ -41,6 +42,13 @@ export const defaultLexical = lexicalEditor({
             }) as TextFieldSingleValidation,
           },
         ]
+      },
+    }),
+    UploadFeature({
+      collections: {
+        media: {
+          fields: [],
+        },
       },
     }),
   ],

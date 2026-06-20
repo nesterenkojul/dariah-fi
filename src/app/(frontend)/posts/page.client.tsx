@@ -12,4 +12,6 @@ const PageClient: React.FC = () => {
   return <React.Fragment />
 }
 
+export const dynamic = 'force-dynamic'
+
 export default PageClient

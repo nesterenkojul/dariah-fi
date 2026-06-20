@@ -17,6 +17,9 @@ const nextConfig: NextConfig = {
   sassOptions: {
     loadPaths: ['./node_modules/@payloadcms/ui/dist/scss/'],
   },
+  output: 'standalone',
+  // Skip static generation — all pages rendered at request time
+  generateBuildId: async () => 'build',
   images: {
     localPatterns: [
       {

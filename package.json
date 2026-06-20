@@ -101,5 +101,6 @@
       "esbuild",
       "unrs-resolver"
     ]
-  }
+  },
+  "migrate": "payload migrate"
 }

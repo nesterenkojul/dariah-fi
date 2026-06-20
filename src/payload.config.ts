@@ -9,6 +9,10 @@ import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
 import { Posts } from './collections/Posts'
 import { Users } from './collections/Users'
+import { Events } from './collections/Events'
+import { LocalOffices } from './collections/LocalOffices'
+import { AffiliatedGroups } from './collections/AffiliatedGroups'
+import { Tools } from './collections/Tools'
 import { Footer } from './Footer/config'
 import { Header } from './Header/config'
 import { plugins } from './plugins'
@@ -20,6 +24,16 @@ const dirname = path.dirname(filename)
 
 export default buildConfig({
   admin: {
+    meta: {
+      title: 'DARIAH-FI Admin Panel',
+      icons: [
+        {
+          rel: 'icon',
+          type: 'image/png',
+          url: '/favicon.png',
+        },
+      ],
+    },
     components: {
       // The `BeforeLogin` component renders a message that you see while logging into your admin panel.
       // Feel free to delete this at any time. Simply remove the line below.
@@ -59,13 +73,14 @@ export default buildConfig({
   editor: defaultLexical,
   db: postgresAdapter({
     pool: {
-      connectionString: process.env.DATABASE_URL || '',
+      connectionString: process.env.DATABASE_URI || '',
     },
+    // Run migrations automatically on startup
+    migrationDir: './migrations',
   }),
-  collections: [Pages, Posts, Media, Categories, Users],
+  collections: [Pages, Posts, Media, Categories, Users, Events, LocalOffices, AffiliatedGroups, Tools],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer],
-  plugins,
   secret: process.env.PAYLOAD_SECRET,
   sharp,
   typescript: {
@@ -89,4 +104,5 @@ export default buildConfig({
     },
     tasks: [],
   },
+  plugins,
 })

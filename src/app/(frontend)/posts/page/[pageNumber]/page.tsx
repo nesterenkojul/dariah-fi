@@ -17,6 +17,8 @@ type Args = {
   }>
 }
 
+export const dynamic = 'force-dynamic'
+
 export default async function Page({ params: paramsPromise }: Args) {
   const { pageNumber } = await paramsPromise
   const payload = await getPayload({ config: configPromise })
@@ -65,10 +67,11 @@ export default async function Page({ params: paramsPromise }: Args) {
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
   const { pageNumber } = await paramsPromise
   return {
-    title: `Payload Website Template Posts Page ${pageNumber || ''}`,
+    title: `News and Blogs – DARIAH-FI | Page ${pageNumber || ''}`,
   }
 }
 
+/*
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
   const { totalDocs } = await payload.count({
@@ -86,3 +89,4 @@ export async function generateStaticParams() {
 
   return pages
 }
+*/

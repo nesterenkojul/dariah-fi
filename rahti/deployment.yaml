@@ -1,0 +1,92 @@
+# Media PVC
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: dariah-fi-media
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+---
+# App Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dariah-fi
+  labels:
+    app: dariah-fi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dariah-fi
+  template:
+    metadata:
+      labels:
+        app: dariah-fi
+    spec:
+      containers:
+        - name: dariah-fi
+          image: ghcr.io/nesterenkojul/dariah-fi:latest
+          ports:
+            - containerPort: 3000
+          envFrom:
+            - secretRef:
+                name: dariah-fi-env
+          volumeMounts:
+            - name: media
+              mountPath: /app/public/media
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+            limits:
+              memory: "1.5Gi"
+              cpu: "1000m"
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            failureThreshold: 5
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            failureThreshold: 3
+      volumes:
+        - name: media
+          persistentVolumeClaim:
+            claimName: dariah-fi-media
+---
+# App Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: dariah-fi
+spec:
+  selector:
+    app: dariah-fi
+  ports:
+    - port: 3000
+      targetPort: 3000
+---
+# Route (HTTPS)
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: dariah-fi
+spec:
+  to:
+    kind: Service
+    name: dariah-fi
+  port:
+    targetPort: 3000
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect

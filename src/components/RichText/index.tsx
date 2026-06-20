@@ -1,4 +1,5 @@
 import { MediaBlock } from '@/blocks/MediaBlock/Component'
+import { Media } from '@/components/Media'
 import {
   DefaultNodeTypes,
   SerializedBlockNode,
@@ -38,6 +39,15 @@ const internalDocToHref = ({ linkNode }: { linkNode: SerializedLinkNode }) => {
 const jsxConverters: JSXConvertersFunction<NodeTypes> = ({ defaultConverters }) => ({
   ...defaultConverters,
   ...LinkJSXConverter({ internalDocToHref }),
+  upload: ({ node }) => {
+    if (!node.value || typeof node.value !== 'object') return null
+    return (
+      <Media
+        resource={node.value as any}
+        imgClassName="w-full h-auto"
+      />
+    )
+  },
   blocks: {
     banner: ({ node }) => <BannerBlock className="col-start-2 mb-4" {...node.fields} />,
     mediaBlock: ({ node }) => (
