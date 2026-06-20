@@ -85,7 +85,12 @@ const posts = postsData as PostData[]
 // https://dariah-fi.2.rahtiapp.fi/wp-content/uploads/2025/04/foo-1024x576.jpg -> foo-1024x576.jpg
 function filenameFromUrl(url: string): string {
   const parts = url.split('/')
-  return decodeURIComponent(parts[parts.length - 1])
+  let filename = decodeURIComponent(parts[parts.length - 1])
+
+  // Strip WordPress size suffix, e.g. "foo-1024x576.jpg" -> "foo.jpg"
+  filename = filename.replace(/-\d+x\d+(\.\w+)$/, '$1')
+
+  return filename
 }
 
 // Cache media lookups so we don't repeat queries for the same file
