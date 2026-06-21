@@ -22,7 +22,7 @@ export const ContactCard: React.FC<ContactCardProps> = ({
   note,
 }) => {
   return (
-    <div className="flex gap-4 p-4 rounded-lg bg-muted">
+    <div className="flex gap-4 p-4 rounded-lg bg-card">
       {logo && typeof logo === 'object' && (
         <div className="w-20 flex-shrink-0 flex items-center">
           <Media resource={logo} />

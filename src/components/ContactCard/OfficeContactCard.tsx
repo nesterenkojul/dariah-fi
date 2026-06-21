@@ -22,7 +22,7 @@ export const OfficeContactCard: React.FC<{ office: LocalOffice; compact?: boolea
   compact = false,
 }) => {
   return (
-    <div className="flex gap-4 p-4 rounded-lg bg-muted">
+    <div className="flex gap-4 p-4 rounded-lg bg-card">
       {!compact && office.logo && typeof office.logo === 'object' && (
         <div className="w-20 flex-shrink-0 flex items-center">
           <Media resource={office.logo} />
