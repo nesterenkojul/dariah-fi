@@ -55,4 +55,4 @@ jobs:
       - name: Update image and restart deployment
         run: |
           oc set image deployment/dariah-fi dariah-fi=ghcr.io/${{ github.repository }}:${{ github.sha }}
-          oc rollout status deployment/dariah-fi --timeout=180s
+          oc rollout status deployment/dariah-fi --timeout=120s
